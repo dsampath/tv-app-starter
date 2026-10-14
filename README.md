@@ -10,8 +10,6 @@ You get two native sample apps, a reusable building skill, and a small script th
 
 [Build with your agent](#bring-your-idea) · [Run the sample](#take-it-for-a-spin) · [Make your first change](#make-it-yours)
 
-> **Private preview:** this repo is being tested before its public release. The links and downloads currently require access to the repository.
-
 ## Here’s your starting point
 
 ### Apple TV

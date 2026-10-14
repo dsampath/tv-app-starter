@@ -4,7 +4,7 @@ You can try the ready-made APK first, or build your own copy. Both routes give y
 
 ## Try the preview APK
 
-Download `TVStarter.apk` from the [preview release](https://github.com/dsampath/tv-app-starter/releases/tag/v0.1.0). While the repository is private, you’ll need repository access to download it.
+Download `TVStarter.apk` from the [preview release](https://github.com/dsampath/tv-app-starter/releases/tag/v0.1.0).
 
 Install Android SDK Platform-Tools to get `adb`. On your own Android TV or Google TV, enable developer options and debugging, connect using your device’s supported USB or network-debugging method, and authorize your computer on the TV. The exact settings vary by manufacturer and firmware. TCL TVs need to run Android TV or Google TV for this sample.
 
