@@ -1,95 +1,103 @@
 # TV App Starter
 
-Build your own native **Apple TV** or **Android TV / Google TV** app with Codex or Claude Code. Two offline samples, no accounts, no backend, and no personal configuration required. MIT licensed; currently private for owner review before public release.
+**Your TV deserves an app you made.**
 
-Inspired by building custom TV apps with Codex, this starter provides a dashboard, remote navigation, detail screens, practice check-offs, and a saved dark/light appearance preference. It runs as a regular TV app. Physical-device installation uses your own signing or developer setup.
+A reading list on the big screen. A little dashboard for your day. Something wonderfully specific that nobody’s put in an app store yet.
 
-## Screenshots
+This started with building custom TV apps using Codex. That was fun enough to turn the starting point into something you can use too. Bring an idea, pick Apple TV or Android TV, and build with Codex or Claude Code.
 
-Fresh captures of the sample apps, using fictional content:
+You get two native sample apps, a reusable building skill, and a small script that gives your project its own folder and app ID. The samples run offline, so you can start playing without setting up accounts or a backend.
+
+[Build with your agent](#bring-your-idea) · [Run the sample](#take-it-for-a-spin) · [Make your first change](#make-it-yours)
+
+> **Private preview:** this repo is being tested before its public release. The links and downloads currently require access to the repository.
+
+## Here’s your starting point
 
 ### Apple TV
-![Apple TV sample dashboard](docs/screenshots/apple-tv.png)
 
-### Android TV
-![Android TV sample dashboard](docs/screenshots/android-tv.png)
+![Apple TV dashboard with Explore, Create, and Unwind cards](docs/screenshots/apple-tv.png)
 
-## Start your custom app
+Those three cards? They’re yours to replace. The Apple TV sample uses SwiftUI, with remote navigation and a detail screen behind each card.
 
-Requires Python 3. Apple TV development requires a Mac with Xcode and the tvOS SDK. Android builds require JDK 17, Android SDK platform 35 and build-tools 35.0.0. No third-party runtime libraries are used.
+### Android TV / Google TV
+
+![Android TV dashboard with the same three cards and a visible focus outline](docs/screenshots/android-tv.png)
+
+The Android sample has the same little journey, built with native Android controls. Follow the focus outline, select a card, and use Back to return. Compatible TCL Android TV and Google TV models can run it too.
+
+Both samples include practice check-offs and a light/dark switch. Appearance survives a relaunch; practice check-offs stay in memory for now.
+
+## Bring your idea
+
+First, grab the starter. You’ll need Git and Python 3; your chosen platform’s build tools come next.
 
 ```sh
 git clone https://github.com/dsampath/tv-app-starter.git
 cd tv-app-starter
-python3 skills/build-tv-app/scripts/new_app.py ../my-tv-app --bundle-id org.example.myapp
-cd ../my-tv-app
 ```
 
-The generator refuses to overwrite a directory and copies only sample sources and tooling. It never copies Git history, build products or credentials.
+**Using Codex?** Open this folder in Codex. The bundled skill is available as `$build-tv-app`. Try this:
 
-## Apple TV
-
-```sh
-python3 generate-project.py
-swift test
-xcodebuild -project FamilyTV.xcodeproj -scheme FamilyTV   -configuration Debug -sdk appletvsimulator   -destination 'generic/platform=tvOS Simulator'   -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+```text
+$build-tv-app Build an Apple TV reading-list app in a new sibling folder
+called reading-room, using org.example.readingroom as the bundle ID.
+Start with three fictional books, big remote-friendly cards, and a detail
+screen for each book. Keep it offline. Build it for the simulator and
+explain how I can try it.
 ```
 
-Open `FamilyTV.xcodeproj`, choose the `FamilyTV` scheme and a tvOS simulator, then Run. For a real Apple TV, set your own bundle ID and signing team in Xcode, pair your TV, and select it as the run destination. Do not commit your signing configuration. Regenerating the project intentionally removes local signing settings.
-
-Customize `FamilyTV/FamilyTVApp.swift` for layout, navigation, cards, colors and detail screens. `Core/FamilyState.swift` contains fictional data and date/check-off logic; `Tests/FamilyStateTests.swift` covers midnight changes, streaks, daylight-saving arithmetic and request validation. Run the project generator after adding Swift files.
-
-## Android TV / Google TV (including compatible TCL models)
-
-For quick testing, download `TVStarter.apk` from the private [v0.1.0 preview release](https://github.com/dsampath/tv-app-starter/releases/tag/v0.1.0), then install it with `adb -s YOUR_DEVICE_SERIAL install -r TVStarter.apk`. This is a debug build for local testing.
-
-Set `ANDROID_SDK_ROOT` to your SDK directory and `JAVA_HOME` to your JDK 17 directory locally. Use Android Studio's SDK Manager to install Android SDK Platform 35 and Android SDK Build-Tools 35.0.0, plus Platform-Tools for `adb`.
-
-```sh
-python3 AndroidTV/build.py
-adb devices
-adb -s YOUR_DEVICE_SERIAL install -r AndroidTV/build/TVStarter.apk
-adb -s YOUR_DEVICE_SERIAL shell am start -n org.example.tvstarter/.MainActivity
-```
-
-Enable developer options and USB/network debugging on your TV and authorize your own computer. Select the exact device serial shown by `adb devices`. This sample does not scan your network or connect to TVs automatically. The generated debug key stays in ignored `AndroidTV/build/`; keep it locally if you want to install updates. Use separate release signing for distribution.
-
-Customize `AndroidTV/src/org/example/tvstarter/MainActivity.java`. When changing the package, update its declaration, source path and `AndroidManifest.xml` together (the starter generator does this for you). The Android sample has no Internet permission and declares Leanback launch support without requiring touch input.
-
-## Use with Codex or Claude Code
-
-**Codex:** launch Codex in this checkout. `.agents/skills/build-tv-app` points to the bundled skill. Invoke `$build-tv-app` with a request such as:
-
-> Build an Apple TV app for my reading list, with big remote-focusable cards and an offline demo. Create it in a new directory.
-
-**Claude Code:** load the local plugin from the repository root:
+**Using Claude Code?** From the starter folder, load the local plugin:
 
 ```sh
 claude --plugin-dir .
 ```
 
-Then invoke `/tv-app-starter:build-tv-app` with your app idea and platform. Validate packaging with `claude plugin validate .`.
+Then use `/tv-app-starter:build-tv-app` followed by the same request. Swap “Apple TV” for “Android TV” if that’s your screen of choice.
 
-The shared skill is at `skills/build-tv-app/SKILL.md`; it can create a fresh starter using the bundled script. Codex currently uses repository skill discovery; this is not a published Codex marketplace package. Claude Code has a local plugin manifest. No remote code service, telemetry, device credentials or model API keys are bundled.
+Give your agent an app idea, a platform, and a fresh destination folder. It has the sample sources and build instructions to work from. You’ll still need Xcode for Apple TV, or the Android SDK and JDK 17 for Android TV. The guides below walk through those tools.
 
-Packaging references: [official Codex skills documentation](https://learn.chatgpt.com/docs/build-skills) and [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference).
+Curious about the packaging? See [how the skill and plugin fit together](docs/AGENT_WORKFLOW.md).
 
-## Test before putting it on your TV
+## Take it for a spin
 
-Use a fresh simulator or Android TV emulator. Navigate to every card and tab with the remote/D-pad, select a card, use Back, toggle practice tasks, change appearance, and relaunch. Appearance is saved locally; practice check-offs are deliberately in memory in these UI samples. The two implementations demonstrate the same flow with native controls; layouts need not be pixel-identical.
+Want to explore the sample before asking an agent to change it? Pick your route:
 
-See [validation notes](docs/VALIDATION.md) for checks completed on this version. No claim of App Store/Play Store readiness or system screensaver replacement is made.
+- **Apple TV:** on a Mac with Xcode and the tvOS SDK installed, open `FamilyTV.xcodeproj`, choose the `FamilyTV` scheme and a tvOS simulator, then Run. [Apple TV setup →](docs/APPLE_TV.md)
+- **Android TV:** download `TVStarter.apk` from the [preview release](https://github.com/dsampath/tv-app-starter/releases/tag/v0.1.0), then install it on your own TV or emulator using `adb`. [Android TV setup →](docs/ANDROID_TV.md)
 
-## Privacy and contributions
+When the dashboard appears, open a card and come back. Try Practice, then switch the appearance in Settings. Now you’ve got something to build on.
 
-This repository starts with fresh Git history and an allowlisted export. Original deployment configurations, bridge services, account data, home network addresses, device identifiers, signing identities, personal photos and screenshots, logs, and unrelated apps were excluded. All included imagery consists of newly created generic icons and fresh sample captures.
+## Make it yours
 
-Before committing, run:
+Let’s turn those three cards into a reading list.
+
+If you’re working by hand, create your own copy from the starter folder:
 
 ```sh
-python3 scripts/check_privacy.py
+python3 skills/build-tv-app/scripts/new_app.py ../reading-room \
+  --bundle-id org.example.readingroom
+cd ../reading-room
 ```
 
-The scanner checks tracked files for common secrets, local paths, private network addresses and private/generated file types. It complements secret scanning and visual review; it cannot prove that arbitrary user-added content contains no personal information. Keep local integrations and signing files ignored, and review every new screenshot before sharing.
+Choose a folder that doesn’t exist yet. The generator leaves existing projects alone and gives your copy its own app ID.
 
-See [contribution guidelines](CONTRIBUTING.md). Source code, icons and screenshots are covered by the MIT license.
+For **Apple TV**, edit the three `tile(...)` calls in `FamilyTV/FamilyTVApp.swift`. Replace their titles and subtitles with fictional book names and authors. For **Android TV**, edit the `titles` and `details` arrays in `AndroidTV/src/org/example/readingroom/MainActivity.java`.
+
+Build and run again using your platform guide. You should see your books where Explore, Create, and Unwind used to be. Select one: the sample detail screen is your next place to add a synopsis, a reading note, or a “finished” button.
+
+That’s the loop: change a little, try it with the remote, then keep going. If you’re working with an agent, ask it to make that same first change and check the result with you.
+
+## A few things to know
+
+This is an early starter for regular TV apps. Installing on a real Apple TV needs your own signing setup; Android TV needs developer debugging enabled. Store publishing and system screensavers are separate projects. Native builds and the shared Swift tests pass. Android remote flows were checked in an emulator; the Apple TV dashboard was checked in a simulator. Full Apple TV remote interaction and real-TV checks remain for review. See [what’s been tested](docs/VALIDATION.md) for the details.
+
+The samples use generic content and include no personal deployment configuration. Keep your own keys, device settings, and photos local as you customize. [Privacy notes →](docs/PRIVACY.md)
+
+## Got a good idea?
+
+A tiny kitchen timer? A dashboard for game night? A reading room with absolutely no notifications?
+
+Try it. If you find a rough edge or a useful improvement, open an issue or send a pull request. [The contribution guide](CONTRIBUTING.md) will help you get started.
+
+Code, sample icons, and screenshots are [MIT licensed](LICENSE). Make something you’ll enjoy seeing on your TV.
