@@ -1,0 +1,9 @@
+{
+  "name": "tv-app-starter",
+  "version": "0.1.0",
+  "description": "Build offline native Apple TV and Android TV apps from reusable samples.",
+  "license": "MIT",
+  "author": {
+    "name": "TV Starter contributors"
+  }
+}
